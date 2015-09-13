@@ -18,14 +18,14 @@ import java.util.*;
  * Chainable {@link ItemStack}s
  *
  * Example Usage(s):
- * {@code ItemStack itemStack = new Item(Material.SKULL_ITEM).amount(1).durability(3).skullOwner("MCAeolus").name(ChatColor.RED+"MCAeolus's Skull").make())}
- * {@code ItemStack itemStack = new Item().type(Material.BEDROCK).lores(new String[]{"Lore1",ChatColor.RED+"Lore2"}).enchantment(Enchantment.DAMAGE_ALL, 99).make()}
+ * {@code ItemStack itemStack = new ItemBuilder(Material.SKULL_ITEM).amount(1).durability(3).skullOwner("MCAeolus").name(ChatColor.RED+"MCAeolus's Skull").make())}
+ * {@code ItemStack itemStack = new ItemBuilder().type(Material.BEDROCK).lores(new String[]{"Lore1",ChatColor.RED+"Lore2"}).enchantment(Enchantment.DAMAGE_ALL, 99).make()}
  *
  * @author MCAeolus
  * @version 1.0
  */
 
-public class Item {
+public class ItemBuilder {
 
     private final ItemStack item;
     private final ItemMeta itemM;
@@ -38,7 +38,7 @@ public class Item {
      *
      * @since 1.0
      */
-    public Item(final Material itemType){
+    public ItemBuilder(final Material itemType){
         item = new ItemStack(itemType);
         itemM = item.getItemMeta();
     }
@@ -51,7 +51,7 @@ public class Item {
      *
      * @since 1.0
      */
-    public Item(final ItemStack itemStack){
+    public ItemBuilder(final ItemStack itemStack){
         item = itemStack;
         itemM = item.getItemMeta();
     }
@@ -61,7 +61,7 @@ public class Item {
      *
      * @since 1.0
      */
-    public Item(){
+    public ItemBuilder(){
         item = new ItemStack(Material.AIR);
         itemM = item.getItemMeta();
     }
@@ -75,7 +75,7 @@ public class Item {
      * @return the current instance for chainable application.
      * @since 1.0
      */
-    public Item type(final Material material){
+    public ItemBuilder type(final Material material){
         make().setType(material);
         return this;
     }
@@ -89,7 +89,7 @@ public class Item {
      * @return the current instance for chainable application.
      * @since 1.0
      */
-    public Item amount(final Integer itemAmt){
+    public ItemBuilder amount(final Integer itemAmt){
         make().setAmount(itemAmt);
         return this;
     }
@@ -103,7 +103,7 @@ public class Item {
      * @return the current instance for chainable application.
      * @since 1.0
      */
-    public Item name(final String name){
+    public ItemBuilder name(final String name){
         meta().setDisplayName(name);
         make().setItemMeta(meta());
         return this;
@@ -118,7 +118,7 @@ public class Item {
      * @return the current instance for chainable application.
      * @since 1.0
      */
-    public Item lore(final String lore){
+    public ItemBuilder lore(final String lore){
         List<String> lores = meta().getLore();
         if(lores == null){lores = new ArrayList<>();}
         lores.add(lore);
@@ -136,7 +136,7 @@ public class Item {
      * @return the current instance for chainable application.
      * @since 1.0
      */
-    public Item lores(final String[] lores){
+    public ItemBuilder lores(final String[] lores){
         List<String> loresList = meta().getLore();
         if(loresList == null){loresList = new ArrayList<>();}
         else{loresList.clear();}
@@ -154,7 +154,7 @@ public class Item {
      * @return the current instance for chainable application.
      * @since 1.0
      */
-    public Item durability(final int durability){
+    public ItemBuilder durability(final int durability){
         make().setDurability((short) durability);
         return this;
     }
@@ -169,7 +169,7 @@ public class Item {
      * @since 1.0
      */
     @SuppressWarnings("deprecation")
-    public Item data(final int data){
+    public ItemBuilder data(final int data){
         make().setData(new MaterialData(make().getType(), (byte)data));
         return this;
     }
@@ -186,7 +186,7 @@ public class Item {
      * @return the current instance for chainable application.
      * @since 1.0
      */
-    public Item enchantment(final Enchantment enchantment, final int level){
+    public ItemBuilder enchantment(final Enchantment enchantment, final int level){
         make().addUnsafeEnchantment(enchantment, level);
         return this;
     }
@@ -200,7 +200,7 @@ public class Item {
      * @return the current instance for chainable application.
      * @since 1.0
      */
-    public Item enchantment(final Enchantment enchantment){
+    public ItemBuilder enchantment(final Enchantment enchantment){
         make().addUnsafeEnchantment(enchantment, 1);
         return this;
     }
@@ -217,7 +217,7 @@ public class Item {
      * @return the current instance for chainable application.
      * @since 1.0
      */
-    public Item enchantments(final Enchantment[] enchantments, final int level){
+    public ItemBuilder enchantments(final Enchantment[] enchantments, final int level){
         make().getEnchantments().clear();
         for(Enchantment enchantment : enchantments){
             make().addUnsafeEnchantment(enchantment, level);
@@ -234,7 +234,7 @@ public class Item {
      * @return the current instance for chainable application.
      * @since 1.0
      */
-    public Item enchantments(final Enchantment[] enchantments){
+    public ItemBuilder enchantments(final Enchantment[] enchantments){
         make().getEnchantments().clear();
         for(Enchantment enchantment : enchantments){
             make().addUnsafeEnchantment(enchantment, 1);
@@ -251,7 +251,7 @@ public class Item {
      * @return the current instance for chainable application.
      * @since 1.0
      */
-    public Item clearEnchantment(final Enchantment enchantment){
+    public ItemBuilder clearEnchantment(final Enchantment enchantment){
         Map<Enchantment, Integer> itemEnchantments = make().getEnchantments();
         for(Enchantment enchantmentC : itemEnchantments.keySet()){
             if(enchantment == enchantmentC){
@@ -267,7 +267,7 @@ public class Item {
      * @return the current instance for chainable application.
      * @since 1.0
      */
-    public Item clearEnchantments(){
+    public ItemBuilder clearEnchantments(){
         make().getEnchantments().clear();
         return this;
     }
@@ -281,7 +281,7 @@ public class Item {
      * @return the current instance for chainable application.
      * @since 1.0
      */
-    public Item clearLore(final String lore){
+    public ItemBuilder clearLore(final String lore){
         if(meta().getLore().contains(lore)){
             meta().getLore().remove(lore);
         }
@@ -295,7 +295,7 @@ public class Item {
      * @return the current instance for chainable application.
      * @since 1.0
      */
-    public Item clearLores(){
+    public ItemBuilder clearLores(){
         meta().getLore().clear();
         make().setItemMeta(meta());
         return this;
@@ -310,7 +310,7 @@ public class Item {
      * @return the current instance for chainable application.
      * @since 1.0
      */
-    public Item color(final Color color){
+    public ItemBuilder color(final Color color){
         if(make().getType() == Material.LEATHER_HELMET
                 || make().getType() == Material.LEATHER_CHESTPLATE
                 || make().getType() == Material.LEATHER_LEGGINGS
@@ -328,7 +328,7 @@ public class Item {
      * @return the current instance for chainable application.
      * @since 1.0
      */
-    public Item clearColor(){
+    public ItemBuilder clearColor(){
         if(make().getType() == Material.LEATHER_HELMET
                 || make().getType() == Material.LEATHER_CHESTPLATE
                 || make().getType() == Material.LEATHER_LEGGINGS
@@ -349,7 +349,7 @@ public class Item {
      * @return the current instance for chainable application
      * @since 1.0
      */
-    public Item skullOwner(final String name){
+    public ItemBuilder skullOwner(final String name){
         if(make().getType() == Material.SKULL_ITEM && make().getDurability() == (byte) 3){
             SkullMeta skullMeta = (SkullMeta) meta();
             skullMeta.setOwner(name);
@@ -368,9 +368,9 @@ public class Item {
     }
 
     /**
-     * Returns the {@link ItemStack} of the {@link Item} instance.
+     * Returns the {@link ItemStack} of the {@link ItemBuilder} instance.
      *
-     * @return the ItemStack of the Item instance.
+     * @return the ItemStack of the ItemBuilder instance.
      */
     public ItemStack make(){
         return item;
